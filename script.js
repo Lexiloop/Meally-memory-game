@@ -46,35 +46,38 @@ addTouchAndClickListener(tryAgainButton, resetGame);
 
 function startGame() {
   // Limpiar tablero y restablecer variables
-  gameBoard.innerHTML = ''; // Eliminar cartas anteriores
+  gameBoard.innerHTML = '';
   pairsFound = 0;
   score = 0;
-  opportunities = 0;
+  firstCard = null;
+  secondCard = null;
 
-  menu.classList.add('hidden');
-  gameBoard.classList.remove('hidden');
-  scoreBoard.classList.remove('hidden');
-  endMessage.classList.add('hidden');
-  loseMessage.classList.add('hidden');
+  // Obtener nivel seleccionado y cargar cartas
+  const level = parseInt(levelSelect.value);
+  createBoard(level);
 
-  switch (parseInt(levelSelect.value)) {
+  // Configurar oportunidades y pares totales según el nivel
+  switch (level) {
     case 1:
-      opportunities = 4; // Nivel 1: 4 oportunidades
+      opportunities = 4;
       totalPairs = 4;
       break;
     case 2:
-      opportunities = 6; // Nivel 2: 6 oportunidades
+      opportunities = 10;
       totalPairs = 6;
       break;
     case 3:
-      opportunities = 12; // Nivel 3: 8 oportunidades
+      opportunities = 20;
       totalPairs = 12;
       break;
   }
 
   opportunitiesDisplay.textContent = opportunities;
-  scoreDisplay.textContent = score;
-  createBoard(parseInt(levelSelect.value));
+
+  // Mostrar el tablero y el marcador
+  scoreBoard.classList.remove('hidden');
+  gameBoard.classList.remove('hidden');
+  menu.classList.add('hidden');
 }
 
 function createBoard(level) {
@@ -84,13 +87,6 @@ function createBoard(level) {
   // Limpiar las clases existentes y añadir la clase del nivel
   gameBoard.className = 'hidden';
   gameBoard.classList.add('level-' + level);
-
-  // Añadir el código para manejar el nivel 3 específicamente
-  if (level === 3) {
-    gameBoard.classList.add('level-3');
-  } else {
-    gameBoard.classList.remove('level-3');
-  }
 
   shuffledImages.forEach(image => {
     const card = document.createElement('div');
@@ -104,11 +100,13 @@ function createBoard(level) {
     addTouchAndClickListener(card, flipCard);
     gameBoard.appendChild(card);
   });
+
+  gameBoard.classList.remove('hidden');
 }
 
-function flipCard(event) {
-  event.preventDefault(); // Evitar comportamiento predeterminado
-  if (lockBoard || this === firstCard) return;
+function flipCard() {
+  if (lockBoard) return;
+  if (this === firstCard) return;
 
   this.classList.add('flipped');
 
@@ -124,45 +122,36 @@ function flipCard(event) {
 }
 
 function checkForMatch() {
-  const firstImage = firstCard.querySelector('.card-front').style.backgroundImage;
-  const secondImage = secondCard.querySelector('.card-front').style.backgroundImage;
+  const isMatch = firstCard.innerHTML === secondCard.innerHTML;
 
-  if (firstImage === secondImage) {
+  if (isMatch) {
     disableCards();
-  } else {
-    opportunities--;
-    opportunitiesDisplay.textContent = opportunities;
-    if (opportunities <= 0) {
-      setTimeout(() => {
-        gameBoard.classList.add('hidden');
-        loseMessage.classList.remove('hidden');
-        finalScoreDisplay.textContent = score;
-      }, 500);
-    } else {
-      unflipCards();
+    updateScore();
+    pairsFound++;
+    if (pairsFound === totalPairs) {
+      setTimeout(endGame, 500);
     }
+  } else {
+    unflipCards();
   }
 }
 
 function disableCards() {
   firstCard.removeEventListener('click', flipCard);
-  firstCard.removeEventListener('touchstart', flipCard);
   secondCard.removeEventListener('click', flipCard);
-  secondCard.removeEventListener('touchstart', flipCard);
   resetBoard();
-  pairsFound++;
-  score++;
-  scoreDisplay.textContent = score;
-
-  if (pairsFound === totalPairs) {
-    setTimeout(() => {
-      gameBoard.classList.add('hidden');
-      endMessage.classList.remove('hidden');
-    }, 500);
-  }
 }
 
 function unflipCards() {
+  opportunities--;
+
+  if (opportunities === 0) {
+    setTimeout(loseGame, 1000);
+    return;
+  }
+
+  opportunitiesDisplay.textContent = opportunities;
+
   setTimeout(() => {
     firstCard.classList.remove('flipped');
     secondCard.classList.remove('flipped');
@@ -172,6 +161,20 @@ function unflipCards() {
 
 function resetBoard() {
   [firstCard, secondCard, lockBoard] = [null, null, false];
+}
+
+function updateScore() {
+  score++;
+  scoreDisplay.textContent = score;
+}
+
+function endGame() {
+  endMessage.classList.remove('hidden');
+}
+
+function loseGame() {
+  finalScoreDisplay.textContent = score;
+  loseMessage.classList.remove('hidden');
 }
 
 function resetGame() {
