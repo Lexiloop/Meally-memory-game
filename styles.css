@@ -167,10 +167,10 @@ button:hover {
     grid-template-columns: repeat(3, 100px);
     grid-template-rows: repeat(8, 100px);
     .card {
-    width: 60px;
-    height: 60px;
-    margin: 5px;
-  }
+    width: 70px;
+    height: 70px;
+    margin: 20px;
+   }
 
   .card {
     width: 70px;
