@@ -166,6 +166,10 @@ button:hover {
   #game-board.level-3 {
     grid-template-columns: repeat(3, 100px);
     grid-template-rows: repeat(8, 100px);
+    .card {
+    width: 70px;
+    height: 70px;
+    margin: 10px;
   }
 
   .card {
