@@ -63,11 +63,11 @@ function startGame() {
       totalPairs = 4;
       break;
     case 2:
-      opportunities = 10;
+      opportunities = 6;
       totalPairs = 6;
       break;
     case 3:
-      opportunities = 20;
+      opportunities = 12;
       totalPairs = 12;
       break;
   }
