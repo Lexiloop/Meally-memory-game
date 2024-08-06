@@ -7,9 +7,7 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  overflow: auto; /* Habilitar desplazamiento si es necesario */
-  -webkit-overflow-scrolling: touch; /* Suavizar desplazamiento en dispositivos iOS */
-}
+ }
 
 #menu, .message-box {
   display: flex;
@@ -158,6 +156,7 @@ button:hover {
     width: 70px;
     height: 70px;
     margin: 5px;
+    margin-bottom: 20px;  
    }
 
   .card {
