@@ -48,7 +48,8 @@ function startGame() {
   // Limpiar tablero y restablecer variables
   gameBoard.innerHTML = '';
   pairsFound = 0;
-  score = 0;
+  score = 0; // Reiniciar el puntaje a 0
+  scoreDisplay.textContent = score; // Actualizar la pantalla de puntaje
   firstCard = null;
   secondCard = null;
 
