@@ -9,22 +9,6 @@ body {
   height: 100vh;
 }
 
-#game-container {
-  width: 90vw;
-  height: 90vh;
-  max-width: 700px;
-  max-height: 700px;
-  box-sizing: border-box;
-  padding: 10px;
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
 #menu, .message-box {
   display: flex;
   flex-direction: column;
