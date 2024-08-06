@@ -133,6 +133,8 @@ button:hover {
     width: 100vw;
     height: 100vh;
     padding: 5px;
+    overflow: auto; /* Habilitar desplazamiento si es necesario */
+    -webkit-overflow-scrolling: touch; /* Suavizar desplazamiento en dispositivos iOS */
   }
 
   #board-container {
