@@ -185,5 +185,6 @@ function resetGame() {
   menu.classList.remove('hidden');
   pairsFound = 0;
   score = 0;
+  scoreDisplay.textContent = score;
   resetBoard();
 }
